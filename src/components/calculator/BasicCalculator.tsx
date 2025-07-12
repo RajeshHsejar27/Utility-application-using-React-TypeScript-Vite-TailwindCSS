@@ -6,156 +6,175 @@ interface BasicCalculatorProps {
   showNotification: (message: string) => void;
 }
 
-/**
- * Basic calculator component with standard arithmetic operations
- * Features: Number input, operation buttons, and result display
- */
-const BasicCalculator: React.FC<BasicCalculatorProps> = ({ onCalculation, showNotification }) => {
+const BasicCalculator: React.FC<BasicCalculatorProps> = ({
+  onCalculation,
+  showNotification,
+}) => {
   const [display, setDisplay] = useState('0');
-  const [previousValue, setPreviousValue] = useState<number | null>(null);
+  const [prevValue, setPrevValue] = useState<number | null>(null);
   const [operation, setOperation] = useState<string | null>(null);
-  const [waitingForOperand, setWaitingForOperand] = useState(false);
+  const [waiting, setWaiting] = useState(false);
+  const [expression, setExpression] = useState<string>('');
 
-  /**
-   * Handles number input
-   */
+  // Append digit or start new operand
   const inputNumber = (num: string) => {
-    if (waitingForOperand) {
+    if (waiting) {
       setDisplay(num);
-      setWaitingForOperand(false);
+      setWaiting(false);
     } else {
-      setDisplay(display === '0' ? num : display + num);
+      setDisplay(d => (d === '0' ? num : d + num));
     }
+    // Extend current operand in expression if there's an operation
+    setExpression(expr =>
+      operation && !waiting
+        ? expr + num
+        : waiting
+        ? // new operand after operator
+          `${expr}${num}`
+        : num // fresh start
+    );
   };
 
-  /**
-   * Handles decimal point input
-   */
   const inputDecimal = () => {
-    if (waitingForOperand) {
+    if (waiting) {
       setDisplay('0.');
-      setWaitingForOperand(false);
-    } else if (display.indexOf('.') === -1) {
-      setDisplay(display + '.');
+      setWaiting(false);
+      setExpression(expr => expr + '0.');
+    } else if (!display.includes('.')) {
+      setDisplay(d => d + '.');
+      setExpression(expr => expr + '.');
     }
   };
 
-  /**
-   * Clears the calculator
-   */
-  const clear = () => {
+  const clearAll = () => {
     setDisplay('0');
-    setPreviousValue(null);
+    setPrevValue(null);
     setOperation(null);
-    setWaitingForOperand(false);
+    setWaiting(false);
+    setExpression('');
   };
 
-  /**
-   * Performs arithmetic operations
-   */
-  const calculate = (firstValue: number, secondValue: number, operation: string): number => {
-    switch (operation) {
+  const deleteLast = () => {
+    setDisplay(d => (d.length > 1 ? d.slice(0, -1) : '0'));
+    setExpression(expr => expr.slice(0, -1));
+  };
+
+  const calculate = (a: number, b: number, op: string) => {
+    switch (op) {
       case '+':
-        return firstValue + secondValue;
+        return a + b;
       case '-':
-        return firstValue - secondValue;
+        return a - b;
       case '×':
-        return firstValue * secondValue;
+        return a * b;
       case '÷':
-        return firstValue / secondValue;
+        return a / b;
       default:
-        return secondValue;
+        return b;
     }
   };
 
-  /**
-   * Handles operation button clicks
-   */
-  const performOperation = (nextOperation: string) => {
-    const inputValue = parseFloat(display);
+  // Handle + - × ÷
+  const handleOperation = (nextOp: string) => {
+    const current = parseFloat(display);
 
-    if (previousValue === null) {
-      setPreviousValue(inputValue);
+    if (prevValue === null) {
+      // first operator
+      setPrevValue(current);
+      setExpression(`${current} ${nextOp} `);
     } else if (operation) {
-      const currentValue = previousValue || 0;
-      const result = calculate(currentValue, inputValue, operation);
-
+      // chain calculation
+      const result = calculate(prevValue, current, operation);
       if (isNaN(result) || !isFinite(result)) {
-        showNotification('Invalid operation result');
+        showNotification('Invalid result');
         return;
       }
-
-      setDisplay(String(result));
-      setPreviousValue(result);
-      
-      // Add to history
       onCalculation({
         type: 'basic',
-        operation: `${currentValue} ${operation} ${inputValue}`,
+        operation: `${prevValue} ${operation} ${current}`,
         result: String(result),
       });
+      setDisplay(String(result));
+      setPrevValue(result);
+      setExpression(`${result} ${nextOp} `);
     }
 
-    setWaitingForOperand(true);
-    setOperation(nextOperation);
+    setOperation(nextOp);
+    setWaiting(true);
   };
 
-  /**
-   * Handles equals button
-   */
-  const equals = () => {
-    if (operation && previousValue !== null) {
-      performOperation('=');
+  // Handle equals
+  const handleEquals = () => {
+    if (operation && prevValue !== null) {
+      const current = parseFloat(display);
+      const result = calculate(prevValue, current, operation);
+      if (isNaN(result) || !isFinite(result)) {
+        showNotification('Invalid result');
+        return;
+      }
+      const expr = `${prevValue} ${operation} ${current} = ${result}`;
+      setExpression(expr);
+      onCalculation({
+        type: 'basic',
+        operation: `${prevValue} ${operation} ${current}`,
+        result: String(result),
+      });
+      setDisplay(String(result));
+      setPrevValue(null);
       setOperation(null);
-      setPreviousValue(null);
-      setWaitingForOperand(true);
+      setWaiting(true);
     }
   };
 
+  // Define buttons in grid order
   const buttons = [
-    { label: 'C', onClick: clear, className: 'bg-gray-500 text-white' },
-    { label: '±', onClick: () => setDisplay(String(-parseFloat(display))), className: 'bg-gray-500 text-white' },
-    { label: '%', onClick: () => setDisplay(String(parseFloat(display) / 100)), className: 'bg-gray-500 text-white' },
-    { label: '÷', onClick: () => performOperation('÷'), className: 'bg-orange-500 text-white' },
-    
+    { label: 'C', onClick: clearAll, className: 'bg-gray-500 text-white' },
+    { label: '±', onClick: () => {/* implement ± if needed */}, className: 'bg-gray-500 text-white' },
+    { label: '%', onClick: () => {/* implement % if needed */}, className: 'bg-gray-500 text-white' },
+    { label: '÷', onClick: () => handleOperation('÷'), className: 'bg-orange-500 text-white' },
+
     { label: '7', onClick: () => inputNumber('7'), className: 'bg-gray-200 text-gray-900' },
     { label: '8', onClick: () => inputNumber('8'), className: 'bg-gray-200 text-gray-900' },
     { label: '9', onClick: () => inputNumber('9'), className: 'bg-gray-200 text-gray-900' },
-    { label: '×', onClick: () => performOperation('×'), className: 'bg-orange-500 text-white' },
-    
+    { label: '×', onClick: () => handleOperation('×'), className: 'bg-orange-500 text-white' },
+
     { label: '4', onClick: () => inputNumber('4'), className: 'bg-gray-200 text-gray-900' },
     { label: '5', onClick: () => inputNumber('5'), className: 'bg-gray-200 text-gray-900' },
     { label: '6', onClick: () => inputNumber('6'), className: 'bg-gray-200 text-gray-900' },
-    { label: '-', onClick: () => performOperation('-'), className: 'bg-orange-500 text-white' },
-    
+    { label: '-', onClick: () => handleOperation('-'), className: 'bg-orange-500 text-white' },
+
     { label: '1', onClick: () => inputNumber('1'), className: 'bg-gray-200 text-gray-900' },
     { label: '2', onClick: () => inputNumber('2'), className: 'bg-gray-200 text-gray-900' },
     { label: '3', onClick: () => inputNumber('3'), className: 'bg-gray-200 text-gray-900' },
-    { label: '+', onClick: () => performOperation('+'), className: 'bg-orange-500 text-white' },
-    
-    { label: '0', onClick: () => inputNumber('0'), className: 'bg-gray-200 text-gray-900 col-span-2' },
+    { label: '+', onClick: () => handleOperation('+'), className: 'bg-orange-500 text-white' },
+
+    { label: '0', onClick: () => inputNumber('0'), className: 'bg-gray-200 text-gray-900' },
     { label: '.', onClick: inputDecimal, className: 'bg-gray-200 text-gray-900' },
-    { label: '=', onClick: equals, className: 'bg-orange-500 text-white' },
+    { label: 'DEL', onClick: deleteLast, className: 'bg-gray-500 text-white' },
+    { label: '=', onClick: handleEquals, className: 'bg-orange-500 text-white' },
   ];
 
   return (
     <div className="max-w-xs mx-auto">
-      {/* Display */}
+      {/* Expression */}
+      <div className="text-right text-gray-600 text-sm mb-1 h-5">
+        {expression}
+      </div>
+
+      {/* Main display */}
       <div className="bg-black text-white text-right text-3xl font-light p-4 mb-4 rounded-lg">
         {display}
       </div>
 
       {/* Buttons */}
       <div className="grid grid-cols-4 gap-2">
-        {buttons.map((button, index) => (
+        {buttons.map((btn, i) => (
           <button
-            key={index}
-            onClick={button.onClick}
-            className={`${button.className} p-4 rounded-lg font-semibold text-lg hover:opacity-80 transition-opacity ${
-              button.label === '0' ? 'col-span-2' : ''
-            }`}
+            key={i}
+            onClick={btn.onClick}
+            className={`${btn.className} p-4 rounded-lg font-semibold text-lg hover:opacity-80 transition-opacity`}
           >
-            {button.label}
+            {btn.label}
           </button>
         ))}
       </div>

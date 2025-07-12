@@ -42,13 +42,13 @@ const Home: React.FC = () => {
     <div className="max-w-4xl mx-auto">
       {/* Hero Section */}
       <div className="text-center mb-16">
-        <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-          Welcome to <span className="text-blue-600">UtilityHub</span>
+        <h1 className="text-4xl md:text-6xl font-bold text-red-600 mb-6">
+          Welcome to <span className="text-green-600">UtilityHub</span>
         </h1>
         <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-          Your one-stop destination for essential web utilities. Built with React, TypeScript, and modern web technologies.
+          A cool simple destination for essential web utilities.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        {/* <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             to="/weather"
             className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2"
@@ -63,7 +63,7 @@ const Home: React.FC = () => {
             <Calculator className="w-5 h-5" />
             <span>Open Calculator</span>
           </Link>
-        </div>
+        </div> */}
       </div>
 
       {/* Features Grid */}
@@ -84,7 +84,7 @@ const Home: React.FC = () => {
               </div>
               <p className="text-gray-600 mb-4">{feature.description}</p>
               <div className="flex items-center text-blue-600 font-medium group-hover:text-blue-700">
-                <span>Explore</span>
+                <span>Check out!</span>
                 <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
               </div>
             </Link>
@@ -94,7 +94,7 @@ const Home: React.FC = () => {
 
       {/* Tech Stack */}
       <div className="bg-white rounded-xl shadow-sm p-8 border">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Built with Modern Technologies</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Made with Modern Tech Stack</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
           <div className="p-4">
             <div className="text-2xl font-bold text-blue-600 mb-2">React 18</div>

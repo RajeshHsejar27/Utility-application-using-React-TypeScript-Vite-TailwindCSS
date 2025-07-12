@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Trash2, RotateCcw } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { CalculationEntry } from '../../pages/Calculator';
 
 interface CalculatorHistoryProps {

@@ -24,58 +24,58 @@ const AdvancedCalculator: React.FC<AdvancedCalculatorProps> = ({ onCalculation, 
   /**
    * Length converter functions
    */
-  const convertLength = (value: number, from: string, to: string): number => {
-    const meters = {
-      cm: value / 100,
-      m: value,
-      km: value * 1000,
-      in: value * 0.0254,
-      ft: value * 0.3048,
-    }[from] || 0;
+  // const convertLength = (value: number, from: string, to: string): number => {
+  //   const meters = {
+  //     cm: value / 100,
+  //     m: value,
+  //     km: value * 1000,
+  //     in: value * 0.0254,
+  //     ft: value * 0.3048,
+  //   }[from] || 0;
 
-    return {
-      cm: meters * 100,
-      m: meters,
-      km: meters / 1000,
-      in: meters / 0.0254,
-      ft: meters / 0.3048,
-    }[to] || 0;
-  };
+  //   return {
+  //     cm: meters * 100,
+  //     m: meters,
+  //     km: meters / 1000,
+  //     in: meters / 0.0254,
+  //     ft: meters / 0.3048,
+  //   }[to] || 0;
+  // };
 
   /**
    * Weight converter functions
    */
-  const convertWeight = (value: number, from: string, to: string): number => {
-    const grams = {
-      g: value,
-      kg: value * 1000,
-      lb: value * 453.592,
-      oz: value * 28.3495,
-    }[from] || 0;
+  // const convertWeight = (value: number, from: string, to: string): number => {
+  //   const grams = {
+  //     g: value,
+  //     kg: value * 1000,
+  //     lb: value * 453.592,
+  //     oz: value * 28.3495,
+  //   }[from] || 0;
 
-    return {
-      g: grams,
-      kg: grams / 1000,
-      lb: grams / 453.592,
-      oz: grams / 28.3495,
-    }[to] || 0;
-  };
+  //   return {
+  //     g: grams,
+  //     kg: grams / 1000,
+  //     lb: grams / 453.592,
+  //     oz: grams / 28.3495,
+  //   }[to] || 0;
+  // };
 
   /**
    * Temperature converter functions
    */
-  const convertTemperature = (value: number, from: string, to: string): number => {
-    let celsius = value;
+  // const convertTemperature = (value: number, from: string, to: string): number => {
+  //   let celsius = value;
     
-    if (from === 'f') celsius = (value - 32) * 5/9;
-    if (from === 'k') celsius = value - 273.15;
+  //   if (from === 'f') celsius = (value - 32) * 5/9;
+  //   if (from === 'k') celsius = value - 273.15;
 
-    if (to === 'c') return celsius;
-    if (to === 'f') return (celsius * 9/5) + 32;
-    if (to === 'k') return celsius + 273.15;
+  //   if (to === 'c') return celsius;
+  //   if (to === 'f') return (celsius * 9/5) + 32;
+  //   if (to === 'k') return celsius + 273.15;
     
-    return celsius;
-  };
+  //   return celsius;
+  // };
 
   /**
    * BMI Calculator
@@ -164,189 +164,257 @@ const AdvancedCalculator: React.FC<AdvancedCalculatorProps> = ({ onCalculation, 
         ))}
       </div>
 
+
       {/* Length Converter */}
       {activeConverter === 'length' && (
         <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-lg font-semibold mb-4">Length Converter</h3>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Centimeters</label>
-                <input
-                  type="number"
-                  value={inputs.cm || ''}
-                  onChange={(e) => {
-                    updateInput('cm', e.target.value);
-                    const val = parseFloat(e.target.value);
-                    if (!isNaN(val)) {
-                      updateInput('m', (val / 100).toString());
-                      updateInput('km', (val / 100000).toString());
-                    }
-                  }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="Enter centimeters"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Meters</label>
-                <input
-                  type="number"
-                  value={inputs.m || ''}
-                  onChange={(e) => {
-                    updateInput('m', e.target.value);
-                    const val = parseFloat(e.target.value);
-                    if (!isNaN(val)) {
-                      updateInput('cm', (val * 100).toString());
-                      updateInput('km', (val / 1000).toString());
-                    }
-                  }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="Enter meters"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Kilometers</label>
-                <input
-                  type="number"
-                  value={inputs.km || ''}
-                  onChange={(e) => {
-                    updateInput('km', e.target.value);
-                    const val = parseFloat(e.target.value);
-                    if (!isNaN(val)) {
-                      updateInput('m', (val * 1000).toString());
-                      updateInput('cm', (val * 100000).toString());
-                    }
-                  }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="Enter kilometers"
-                />
-              </div>
-            </div>
+        <h3 className="text-lg font-semibold mb-4">Length Converter</h3>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Centimeters</label>
+            <input
+          type="number"
+          value={inputs.cm || ''}
+          onChange={(e) => {
+            const val = parseFloat(e.target.value);
+            if (!isNaN(val)) {
+              updateInput('cm', e.target.value);
+              updateInput('m', (val / 100).toString());
+              updateInput('km', (val / 100000).toString());
+              updateInput('in', (val / 2.54).toString());
+              updateInput('ft', (val / 30.48).toString());
+            } else {
+              updateInput('cm', '');
+              updateInput('m', '');
+              updateInput('km', '');
+              updateInput('in', '');
+              updateInput('ft', '');
+            }
+          }}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+          placeholder="Enter centimeters"
+            />
           </div>
           <div>
-            <h3 className="text-lg font-semibold mb-4">Imperial Units</h3>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Inches</label>
-                <input
-                  type="number"
-                  value={inputs.in || ''}
-                  onChange={(e) => {
-                    updateInput('in', e.target.value);
-                    const val = parseFloat(e.target.value);
-                    if (!isNaN(val)) {
-                      const meters = val * 0.0254;
-                      updateInput('m', meters.toString());
-                      updateInput('cm', (meters * 100).toString());
-                    }
-                  }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="Enter inches"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Feet</label>
-                <input
-                  type="number"
-                  value={inputs.ft || ''}
-                  onChange={(e) => {
-                    updateInput('ft', e.target.value);
-                    const val = parseFloat(e.target.value);
-                    if (!isNaN(val)) {
-                      const meters = val * 0.3048;
-                      updateInput('m', meters.toString());
-                      updateInput('cm', (meters * 100).toString());
-                    }
-                  }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="Enter feet"
-                />
-              </div>
-            </div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Meters</label>
+            <input
+          type="number"
+          value={inputs.m || ''}
+          onChange={(e) => {
+            const val = parseFloat(e.target.value);
+            if (!isNaN(val)) {
+              updateInput('m', e.target.value);
+              updateInput('cm', (val * 100).toString());
+              updateInput('km', (val / 1000).toString());
+              updateInput('in', (val / 0.0254).toString());
+              updateInput('ft', (val / 0.3048).toString());
+            } else {
+              updateInput('m', '');
+              updateInput('cm', '');
+              updateInput('km', '');
+              updateInput('in', '');
+              updateInput('ft', '');
+            }
+          }}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+          placeholder="Enter meters"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Kilometers</label>
+            <input
+          type="number"
+          value={inputs.km || ''}
+          onChange={(e) => {
+            const val = parseFloat(e.target.value);
+            if (!isNaN(val)) {
+              updateInput('km', e.target.value);
+              updateInput('m', (val * 1000).toString());
+              updateInput('cm', (val * 100000).toString());
+              updateInput('in', (val * 39370.1).toString());
+              updateInput('ft', (val * 3280.84).toString());
+            } else {
+              updateInput('km', '');
+              updateInput('m', '');
+              updateInput('cm', '');
+              updateInput('in', '');
+              updateInput('ft', '');
+            }
+          }}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+          placeholder="Enter kilometers"
+            />
+          </div>
+        </div>
+          </div>
+          <div>
+        <h3 className="text-lg font-semibold mb-4">Imperial Units</h3>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Inches</label>
+            <input
+          type="number"
+          value={inputs.in || ''}
+          onChange={(e) => {
+            const val = parseFloat(e.target.value);
+            if (!isNaN(val)) {
+              updateInput('in', e.target.value);
+              const meters = val * 0.0254;
+              updateInput('m', meters.toString());
+              updateInput('cm', (meters * 100).toString());
+              updateInput('km', (meters / 1000).toString());
+              updateInput('ft', (val / 12).toString());
+            } else {
+              updateInput('in', '');
+              updateInput('m', '');
+              updateInput('cm', '');
+              updateInput('km', '');
+              updateInput('ft', '');
+            }
+          }}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+          placeholder="Enter inches"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Feet</label>
+            <input
+          type="number"
+          value={inputs.ft || ''}
+          onChange={(e) => {
+            const val = parseFloat(e.target.value);
+            if (!isNaN(val)) {
+              updateInput('ft', e.target.value);
+              const meters = val * 0.3048;
+              updateInput('m', meters.toString());
+              updateInput('cm', (meters * 100).toString());
+              updateInput('km', (meters / 1000).toString());
+              updateInput('in', (val * 12).toString());
+            } else {
+              updateInput('ft', '');
+              updateInput('m', '');
+              updateInput('cm', '');
+              updateInput('km', '');
+              updateInput('in', '');
+            }
+          }}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+          placeholder="Enter feet"
+            />
+          </div>
+        </div>
           </div>
         </div>
       )}
+
+
+
 
       {/* Weight Converter */}
       {activeConverter === 'weight' && (
         <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-lg font-semibold mb-4">Metric Weight</h3>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Grams</label>
-                <input
-                  type="number"
-                  value={inputs.g || ''}
-                  onChange={(e) => {
-                    updateInput('g', e.target.value);
-                    const val = parseFloat(e.target.value);
-                    if (!isNaN(val)) {
-                      updateInput('kg', (val / 1000).toString());
-                      updateInput('lb', (val / 453.592).toString());
-                    }
-                  }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="Enter grams"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Kilograms</label>
-                <input
-                  type="number"
-                  value={inputs.kg || ''}
-                  onChange={(e) => {
-                    updateInput('kg', e.target.value);
-                    const val = parseFloat(e.target.value);
-                    if (!isNaN(val)) {
-                      updateInput('g', (val * 1000).toString());
-                      updateInput('lb', (val * 2.20462).toString());
-                    }
-                  }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="Enter kilograms"
-                />
-              </div>
-            </div>
+        <h3 className="text-lg font-semibold mb-4">Metric Weight</h3>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Grams</label>
+            <input
+          type="number"
+          value={inputs.g || ''}
+          onChange={(e) => {
+            const val = parseFloat(e.target.value);
+            if (!isNaN(val)) {
+              updateInput('g', e.target.value);
+              updateInput('kg', (val / 1000).toString());
+              updateInput('lb', (val / 453.592).toString());
+              updateInput('oz', (val / 28.3495).toString());
+            } else {
+              updateInput('g', '');
+              updateInput('kg', '');
+              updateInput('lb', '');
+              updateInput('oz', '');
+            }
+          }}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+          placeholder="Enter grams"
+            />
           </div>
           <div>
-            <h3 className="text-lg font-semibold mb-4">Imperial Weight</h3>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Pounds</label>
-                <input
-                  type="number"
-                  value={inputs.lb || ''}
-                  onChange={(e) => {
-                    updateInput('lb', e.target.value);
-                    const val = parseFloat(e.target.value);
-                    if (!isNaN(val)) {
-                      updateInput('kg', (val / 2.20462).toString());
-                      updateInput('g', (val * 453.592).toString());
-                    }
-                  }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="Enter pounds"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Ounces</label>
-                <input
-                  type="number"
-                  value={inputs.oz || ''}
-                  onChange={(e) => {
-                    updateInput('oz', e.target.value);
-                    const val = parseFloat(e.target.value);
-                    if (!isNaN(val)) {
-                      updateInput('g', (val * 28.3495).toString());
-                      updateInput('kg', (val * 0.0283495).toString());
-                    }
-                  }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  placeholder="Enter ounces"
-                />
-              </div>
-            </div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Kilograms</label>
+            <input
+          type="number"
+          value={inputs.kg || ''}
+          onChange={(e) => {
+            const val = parseFloat(e.target.value);
+            if (!isNaN(val)) {
+              updateInput('kg', e.target.value);
+              updateInput('g', (val * 1000).toString());
+              updateInput('lb', (val * 2.20462).toString());
+              updateInput('oz', (val * 35.27396).toString());
+            } else {
+              updateInput('kg', '');
+              updateInput('g', '');
+              updateInput('lb', '');
+              updateInput('oz', '');
+            }
+          }}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+          placeholder="Enter kilograms"
+            />
+          </div>
+        </div>
+          </div>
+          <div>
+        <h3 className="text-lg font-semibold mb-4">Imperial Weight</h3>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Pounds</label>
+            <input
+          type="number"
+          value={inputs.lb || ''}
+          onChange={(e) => {
+            const val = parseFloat(e.target.value);
+            if (!isNaN(val)) {
+              updateInput('lb', e.target.value);
+              updateInput('kg', (val / 2.20462).toString());
+              updateInput('g', (val * 453.592).toString());
+              updateInput('oz', (val * 16).toString());
+            } else {
+              updateInput('lb', '');
+              updateInput('kg', '');
+              updateInput('g', '');
+              updateInput('oz', '');
+            }
+          }}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+          placeholder="Enter pounds"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Ounces</label>
+            <input
+          type="number"
+          value={inputs.oz || ''}
+          onChange={(e) => {
+            const val = parseFloat(e.target.value);
+            if (!isNaN(val)) {
+              updateInput('oz', e.target.value);
+              updateInput('g', (val * 28.3495).toString());
+              updateInput('kg', (val * 0.0283495).toString());
+              updateInput('lb', (val / 16).toString());
+            } else {
+              updateInput('oz', '');
+              updateInput('g', '');
+              updateInput('kg', '');
+              updateInput('lb', '');
+            }
+          }}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+          placeholder="Enter ounces"
+            />
+          </div>
+        </div>
           </div>
         </div>
       )}

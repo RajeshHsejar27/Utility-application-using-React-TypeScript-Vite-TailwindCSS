@@ -34,7 +34,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center">
-              <Link to="/" className="text-2xl font-bold text-blue-600 hover:text-blue-700 transition-colors">
+              <Link to="/" className="text-2xl font-bold text-green-600 hover:text-green-700 transition-colors">
                 UtilityHub
               </Link>
             </div>
@@ -114,16 +114,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </div>
             <div className="flex items-center space-x-6">
               <a
-                href="https://github.com"
+                href="https://github.com/RajeshHsejar27"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-600 hover:text-blue-600 transition-colors flex items-center space-x-1"
               >
                 <Github className="w-4 h-4" />
-                <span className="text-sm">GitHub</span>
+                <span className="text-sm">Author's GitHub</span>
               </a>
               <a
-                href="#"
+                href="https://github.com/RajeshHsejar27/Utility-application-using-React-TypeScript-Vite-TailwindCSS"
                 className="text-gray-600 hover:text-blue-600 transition-colors flex items-center space-x-1"
               >
                 <ExternalLink className="w-4 h-4" />

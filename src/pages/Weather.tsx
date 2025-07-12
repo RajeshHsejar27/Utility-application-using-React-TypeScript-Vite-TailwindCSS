@@ -201,7 +201,7 @@ const Weather: React.FC = () => {
         )}
 
         {/* API Key Notice */}
-        <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+        {/* <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
           <p className="text-sm text-yellow-800">
             <strong>Note:</strong> To use this weather app, you need to configure your OpenWeatherMap API key. 
             Get your free API key from{' '}
@@ -215,7 +215,7 @@ const Weather: React.FC = () => {
             </a>
             {' '}and add it to your environment variables.
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );
